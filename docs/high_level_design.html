@@ -1,64 +1,211 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>W3.CSS Template</title>
+<title>High Level Design</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.w3-sidebar {
+  z-index: 3;
+  width: 250px;
+  top: 43px;
+  bottom: 0;
+  height: inherit;
+}
+</style>
 </head>
 <body>
 
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
   <div class="w3-bar w3-white w3-wide w3-padding w3-card">
+    <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
     <a href="index.html" class="w3-bar-item w3-button">
       <img src="flappybird.png" alt="Flappy Bird" style="height: 36px; vertical-align: middle;">
     </a>
     <!-- Float links to the right. Hide them on small screens -->
     <div class="w3-right w3-hide-small">
-      <a href="#projects" class="w3-bar-item w3-button">Projects</a>
-      <a href="#about" class="w3-bar-item w3-button">About</a>
-      <a href="#contact" class="w3-bar-item w3-button">Contact</a>
+      <!-- <a href="index.html" class="w3-bar-item w3-button">Introduction</a> -->
+      <a href="high_level_design.html" class="w3-bar-item w3-button">High Level Design</a>
+      <a href="hardware.html" class="w3-bar-item w3-button">Hardware Design</a>
+      <a href="software.html" class="w3-bar-item w3-button">Software Design</a>
+      <a href="results.html" class="w3-bar-item w3-button">Results</a>
+      <a href="appendix.html" class="w3-bar-item w3-button w3-hide-medium">Appendix</a>
     </div>
   </div>
 </div>
 
+<!-- Sidebar -->
+<nav class="w3-sidebar w3-bar-block w3-collapse w3-large w3-light-grey w3-animate-left" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-right w3-xlarge w3-padding-large w3-hover-black w3-hide-large" title="Close Menu">
+    <i class="fa fa-remove"></i>
+  </a>
+  <h4 class="w3-bar-item"><b>Menu</b></h4>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#RationaleandSources">Rationale & Sources</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#BackgroundMath">Background Math</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#LogicalStructure">Logical Structure</a>
+</nav>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
 <!-- Header -->
-<header class="w3-display-container w3-content w3-wide" style="max-width:1500px;" id="home">
+<header class="w3-display-container w3-content w3-wide" style="max-width:1500px; margin-left:250px;" id="home">
   <img class="w3-image" src="flappybird_bg.png" alt="Background" width="1500" height="800">
   <div class="w3-display-middle w3-margin-top w3-center">
     <h1 class="w3-xxlarge w3-text-white" style="font-size: 72px;"><span class="w3-padding w3-black w3-opacity-min"><b>High Level Design</b></span></h1>
   </div>
 </header>
 
-<!-- Page content -->
-<div class="w3-content w3-padding" style="max-width:1564px">
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+<div class="w3-main" style="margin-left:250px">
 
+  <!-- Page content -->
+  <div class="w3-content w3-padding" style="max-width:1564px">
 
+    <!-- Rationale and Sources Section -->
+    <div class="w3-container w3-padding-32" id="RationaleandSources">
+      <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Rationale and Sources</h3>
+      <p>
+        <em>Flappy Bird</em> was chosen because its gameplay is simple yet demanding from a
+        real-time systems perspective. Smooth animation, precise collision detection, and
+        responsive controls require careful timing and efficient memory usage, especially when
+        implemented without dedicated graphics hardware.
+      </p>
+      <p>
+        The project builds on publicly available RP2040 VGA graphics libraries. Several characteristics
+        of our code, like the use of direct digital synthesis or fixed point arithmetic, are adapted versions of the models provided by Bruce Land or Hunter Van Adams on the Cornell ECE 4760 website. 
+        All third-party code and references are explicitly cited in later sections of this report.
+      </p>
+    </div>
 
-  <!-- About Section -->
-  <div class="w3-container w3-padding-32" id="about">
-    <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">About</h3>
-    <p>Flappy Bird was chosen because its gameplay is simple yet demanding from a real-time systems perspective. Smooth animation, precise collision detection, and responsive controls require careful timing and efficient memory usage, especially when implemented without dedicated graphics hardware.
-The project builds on publicly available RP2040 VGA graphics libraries. Several characteristics of our code, like the use of direct digital synthesis or fixed point arithmetic, are adapted versions of the models provided by Bruce Land or Hunter Van Adams on the Cornell ECE 4760 website. All third-party code and references are explicitly cited in later sections of this report.
-    </p>
+    <!-- Background Math Section -->
+    <div class="w3-container w3-padding-32" id="BackgroundMath">
+      <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Background Math</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum
+        dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+
+    <!-- Logical Structure Section -->
+    <div class="w3-container w3-padding-32" id="LogicalStructure">
+      <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Logical Structure</h3>
+      <p>
+        The system supports three distinct gameplay modes: a physical button, a microphone
+        input for sound-triggered flapping, and an inertial measurement unit (IMU) that allows
+        the player to control the bird by waving the remote. Once in a mode, the game begins once the program
+        receives the first player input, whether thats a press of the arcade button, loud sound, or tilt of the remote. 
+        Inputs from all peripherals are processed in protothread_input. 
+      </p>
+      
+      <p>
+        These modes are navigated via a mode-switching button wired to GPIO 15, which sets 
+        <code>mode_state</code> to one of three modes with the following processes:
+      </p>
+
+      <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-left-align w3-lime">
+        <b>Button Mode</b>
+      </button>
+      <div id="Demo1" class="w3-container w3-hide w3-khaki">
+        <ul>
+          <li>Poll digital arcade button, wired to GPIO 13, every five increments of
+              <code>arcade_counter</code>, establishing ~5ms intervals for debouncing.</li>
+          <li>Debounce the button input by comparing <code>arcade_prev</code> and
+              <code>arcade_now</code> If the previous and current arcade button press values do not match we know a press is complete.</li>
+          <li>Trigger a flap by setting the bird's y-velocity to -7 and trigger DMA
+              to send the flap sound to the DAC.</li>
+        </ul>
+      </div>
+
+      <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-left-align w3-light-green">
+        <b>Microphone Mode</b>
+      </button>
+      <div id="Demo2" class="w3-container w3-hide w3-yellow">
+        <ul>
+          <li>Read 12-bit ADC samples from the microphone on GPIO 26.</li>
+          <li>Maintain a rolling average to establish a baseline noise level.</li>
+          <li>If the difference exceeds <code>MIC_THRESHOLD</code> (3500), trigger a flap.</li>
+        </ul>
+      </div>
+
+      <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-left-align w3-green w3-text-black">
+        <b>IMU Mode</b>
+      </button>
+      <div id="Demo3" class="w3-container w3-hide w3-amber">
+        <ul>
+          <li>The program processes data from the inertial measurement unit every twenty increments of <code>imu_counter</code>, for ~20 ms polling intervals.</li>
+          <li>We use the y and z accelerations to approximate the horizonal acceleration. We store the value as a baseline, and subsequently calculate deviations from this value. </li>
+          <li>If this difference, <code>delta_tilt</code> surpasses <code>TILT_UP_THRESHOLD</code>, a flap and flap sound effect are triggered.</li>
+        </ul>
+      </div>
+
+      <p>
+        The system is divided across both RP2040 cores. Core 0 is responsible for VGA graphics
+        generation, game state updates, physics, collision detection, and rendering. Core 1
+        handles asynchronous input sources including the microphone, IMU, and mode-selection
+        buttons. This division allows the graphics pipeline to meet strict frame timing
+        requirements while still responding to real-world inputs.
+      </p>
+
+      <p>
+        VGA output is generated using PIO state machines and DMA transfers to stream pixel data
+        with high precision. Audio output is produced through an external SPI DAC, with sound
+        effects handled via DMA for low-latency playback and background music synthesized using
+        direct digital synthesis (DDS) driven by a hardware timer interrupt.
+      </p>
+
+      <p>
+        Together, these components form a tightly integrated embedded system that demonstrates
+        real-time graphics, audio, sensing, and control on a single microcontroller.
+      </p>
+    </div>
+
   </div>
+  <!-- End page content -->
 
-  </div>
-  
-<!-- Image of location/map -->
-<div class="w3-container">
-  <img src="/w3images/map.jpg" class="w3-image" style="width:100%">
 </div>
-
-<!-- End page content -->
-</div>
-
+<!-- END MAIN -->
 
 <!-- Footer -->
-<footer class="w3-center w3-black w3-padding-16">
+<footer class="w3-center w3-black w3-padding-16" style="margin-left:250px">
   <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
 </footer>
+
+<script>
+// Collapsible button function
+function myFunction(id) {
+  var x = document.getElementById(id);
+  if (x.className.indexOf("w3-show") === -1) {
+    x.className += " w3-show";
+  } else {
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
+// Get the Sidebar
+var mySidebar = document.getElementById("mySidebar");
+
+// Get the DIV with overlay effect
+var overlayBg = document.getElementById("myOverlay");
+
+// Toggle between showing and hiding the sidebar, and add overlay effect
+function w3_open() {
+  if (mySidebar.style.display === 'block') {
+    mySidebar.style.display = 'none';
+    overlayBg.style.display = "none";
+  } else {
+    mySidebar.style.display = 'block';
+    overlayBg.style.display = "block";
+  }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+  mySidebar.style.display = "none";
+  overlayBg.style.display = "none";
+}
+</script>
 
 </body>
 </html>
