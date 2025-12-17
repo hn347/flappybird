@@ -165,61 +165,6 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
         </script>
 
 
-        <!-- <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-left-align">
-        <b> Button Mode </b></button>
-        <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-left-align">
-        <b> Microphone Mode </b></button>
-        <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-left-align">
-        <b> IMU Mode </b></button> -->
-
-<!-- 
-        <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-left-align">
-        <b> Button Mode </b></button>
-        <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-left-align">
-        <b> Microphone Mode </b></button>
-        <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-left-align">
-        <b> IMU Mode </b></button>
-
-        
-
-        <script>
-        function myFunction(id) {
-          var x = document.getElementById(id);
-          if (x.className.indexOf("w3-show") == -1) {
-            x.className += " w3-show";
-          } else {
-            x.className = x.className.replace(" w3-show", "");
-          }
-        }
-        </script>
-
-          <b>1. Button Mode: </b>
-          <ul>
-          <li>Poll digital arcade button, wired to GPIO 13, every five increments of arcade_counter, 
-            effectively establishing ~5ms intervals for debouncing.</li>
-          <li>Debounce the button input by comparing boolean values arcade_prev and arcade_now. If the previous and current arace button press values do not match we know a press is complete.</li>
-          <li>Trigger a flap by setting the bird's y-velocity to -7. Also trigger DMA to transfer sound "flap" sound effect data to the DAC's SPI buffer. </li>
-        </ul>
-        </p>
-        <p>
-          <b>2. Microphone Mode: </b>
-          <ul>
-          <li></li>
-          <li>Second item</li>
-          <li>Third item</li>
-        </ul>
-        </p>
-        <p>
-          <b>3. IMU Mode: </b>
-          <ul>
-          <li></li>
-          <li>Second item</li>
-          <li>Third item</li>
-        </ul>
-        </p>
-        
-      </p> -->
-
       <p>
         The system is divided across both RP2040 cores. Core 0 is responsible for VGA graphics
         generation, game state updates, physics, collision detection, and rendering. Core 1
@@ -242,8 +187,6 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
     </div>
     </section>
     <div class="w3-third w3-container">
-      <!-- <p class="w3-border w3-padding-large w3-padding-32 w3-center">AD</p>
-      <p class="w3-border w3-padding-large w3-padding-64 w3-center">AD</p> -->
     </div>
   </div>
 
