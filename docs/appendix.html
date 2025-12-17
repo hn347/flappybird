@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>High Level Design</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-wide w3-padding w3-card">
+    <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
+    <a href="index.html" class="w3-bar-item w3-button">
+      <img src="flappybird.png" alt="Flappy Bird" style="height: 36px; vertical-align: middle;">
+    </a>
+    <!-- Float links to the right. Hide them on small screens -->
+    <div class="w3-right w3-hide-small">
+      <!-- <a href="index.html" class="w3-bar-item w3-button">Introduction</a> -->
+      <a href="high_level_design.html" class="w3-bar-item w3-button">High Level Design</a>
+      <a href="hardware.html" class="w3-bar-item w3-button">Hardware Design</a>
+      <a href="software.html" class="w3-bar-item w3-button">Software Design</a>
+      <a href="results.html" class="w3-bar-item w3-button">Results</a>
+      <a href="appendix.html" class="w3-bar-item w3-button w3-hide-medium">Appendix</a>
+    </div>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="w3-display-container w3-content w3-wide" style="max-width:1500px;" id="home">
+  <img class="w3-image" src="flappybird_bg.png" alt="Background" width="1500" height="800">
+  <div class="w3-display-middle w3-margin-top w3-center">
+    <h1 class="w3-xxlarge w3-text-white" style="font-size: 72px;"><span class="w3-padding w3-black w3-opacity-min"><b>High Level Design</b></span></h1>
+  </div>
+</header>
+
+<!-- Main content -->
+<div class="w3-main">
+
+  <!-- Page content -->
+  <div class="w3-content w3-padding" style="max-width:1564px">
+
+    <!-- Rationale and Sources Section -->
+    <div class="w3-container w3-padding-32" id="RationaleandSources">
+      <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Rationale and Sources</h3>
+      <p>
+        <em>Flappy Bird</em> was chosen because its gameplay is simple yet demanding from a
+        real-time systems perspective. Smooth animation, precise collision detection, and
+        responsive controls require careful timing and efficient memory usage, especially when
+        implemented without dedicated graphics hardware.
+      </p>
+      <p>
+      </p>
+
+
+  </div>
+  <!-- End page content -->
+
+</div>
+<!-- END MAIN -->
+
+<!-- Footer -->
+<footer class="w3-center w3-black w3-padding-16">
+  <p>Helen Ni, Selena Zhang, Matthew Amorocho</p>
+</footer>
+
+</body>
+</html>
