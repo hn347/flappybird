@@ -1,0 +1,38 @@
+/* Full-page Flappy Bird background */
+body {
+  background-image: url("../assets/images/flappy-bg.png");
+  background-repeat: repeat-x;
+  background-position: bottom center;
+  background-size: auto 300px;
+  background-color: #4ec0ca; /* sky fallback */
+  min-height: 100vh;
+}
+
+/* Main content panel */
+.w3-main {
+  background: rgba(255, 255, 255, 0.92);
+  min-height: 100vh;
+}
+
+/* Content blocks */
+.w3-container {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+/* Softer navbar */
+.w3-bar.w3-theme {
+  background-color: #2e7d8a !important;
+}
+
+/* Remove harsh theme colors */
+.w3-theme-l1,
+.w3-theme-l5 {
+  background-color: transparent !important;
+}
+
+/* Headings */
+h1, h2 {
+  font-weight: 600;
+}
