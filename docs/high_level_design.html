@@ -58,8 +58,223 @@
       </p>
     </div>
 
+    <!-- Math Background Section -->
+    <div class="w3-container w3-padding-32" id="MathematicalBackground">
+      <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">
+        Mathematical Background
+      </h3>
+
+      <p>
+        This project makes use of mathematics to generate visuals, audio, and provide realistic gameplay dynamics.
+        Explore these applications below:
+      </p>
+
+      <div class="tabs-wrapper">
+
+        <!-- Left vertical buttons -->
+        <div class="tab">
+          <button class="tablinks" onclick="openMathTab(event, 'MotionSim')">
+            Simulating Motion
+          </button>
+          <button class="tablinks" onclick="openMathTab(event, 'SpriteRotation')">
+            Sprite Rotation
+          </button>
+          <button class="tablinks" onclick="openMathTab(event, 'DDS')">
+            Direct Digital Synthesis
+          </button>
+        </div>
+
+        <!-- Right tab content -->
+        <div class="tabcontent-wrapper">
+
+          <div id="MotionSim" class="tabcontent">
+            <h3>Discrete-Time Gravity & Motion Simulation</h3>
+
+            <p>
+              Our bird, Flappy, only flies up and down along a fixed x-coordinate, and the obstacles scroll
+              from right to left at a constant velocity. This allows us to use simple one-dimensional
+              kinematic equations to model Flappy's vertical motion under constant gravity.
+            </p>
+
+            <p>
+              In continuous time, vertical motion under gravity is described by:
+            </p>
+
+            <p style="text-align:center;">
+              <span class="fraction">
+                <span class="numerator"><em>dv(t)</em></span>
+                <span class="denominator"><em>dt</em></span>
+              </span>
+              = <em>g</em>,
+              &nbsp;&nbsp;
+              <span class="fraction">
+                <span class="numerator"><em>dy(t)</em></span>
+                <span class="denominator"><em>dt</em></span>
+              </span>
+              = <em>v(t)</em>
+            </p>
+
+            <p>
+              where <em>g</em> is gravitational acceleration, <em>v(t)</em> is vertical velocity,
+              and <em>y(t)</em> is vertical position.
+            </p>
+
+            <p>
+              Our system operates in discrete time, updating once per video frame. Therefore,
+              the equations become:
+            </p>
+
+            <p style="text-align:center;">
+              <em>v[n + 1]</em> = <em>v[n]</em> + <em>g</em>
+            </p>
+            <p style="text-align:center;">
+              <em>y[n + 1]</em> = <em>y[n]</em> + <em>v[n + 1]</em>
+            </p>
+
+            <p>
+              In our code, gravity is implemented as a fixed-point constant added to the bird’s
+              vertical velocity each frame, and a flap is modeled as an instantaneous negative
+              velocity impulse.
+            </p>
+        </div>
+
+        <div id="SpriteRotation" class="tabcontent">
+          <h3>Sprite Rotation</h3>
+            <p>
+              To enhance realism, the bird sprite is rendered with a rotation that reflects its 
+              arched trajectory as it flaps up and down. This rotation is rooted in standard two-dimensional
+              coordinate transformation math. If the bird sprite is a collection of pixels in the coordinate frame, each with coordinate (x, y),
+              then a rotation about the origin by angle <em>&theta;</em> is accomplished by: <br>
+              <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+              \[
+                \begin{bmatrix}
+                x' \\
+                y'
+                \end{bmatrix}
+                =
+                \begin{bmatrix}
+                \cos\theta & -\sin\theta \\
+                \sin\theta & \cos\theta
+                \end{bmatrix}
+                \begin{bmatrix}
+                x \\
+                y
+                \end{bmatrix}
+                \]
+                <p style="text-align:center;">
+                  or
+                </p>
+                <p style="text-align:center;">
+                  x′ = x cos<em>&theta;</em> − y sin<em>&theta;</em>, y′ = x sin<em>&theta;</em> + y cos<em>&theta;</em>
+                </p>
+              The trigonometric values sin<em>&theta;</em> and cos<em>&theta;</em> are computed
+              once per frame and stored as fixed-points, avoiding unncessary repeat calculations. The <code>drawFlappyBirdSpriteRotated</code> 
+              function iterates through the pixels in the sprite, decodes the pixel's color and transparency, and finds the position vector of a given 
+              point in the sprite from the sprite's center. Using the aforementioned rotation formulas, these vectors are transformed and added
+              to the local coordinates to find the coordinate of the transformed point, which is then drawn.
+            </p>
+            <p>
+              To prevent abrupt changes in the bird's orientation, the rotation angle is updated via a smoothing filter (with alpha = 0.15): <br>
+              <p style="text-align:center;"><em>&theta;</em><sub>n+1</sub>​ = <em>&theta;</em><sub>n</sub> ​+ α(<em>&theta;</em><sub>target</sub> ​− <em>&theta;</em><sub>n</sub>​),</p>
+            <p> This code, contained in <code>update_bird_angle</code> gradually shifts the rotation angle of the bird to <code>target_angle</code>.</p> 
+        </div
+        </div> 
+        <div id="DDS" class="tabcontent">
+            <h3>Direct Digital Synthesis of Background Music</h3>
+            <p>
+              yap yap yap
+            </p>
+      
+        </div>
+
+      </div>
+      
+    </div>
+
+    <!-- Math Tabs Styling -->
+    <style>
+    .tabs-wrapper {
+      display: flex;
+      align-items: stretch;
+      border: 1px solid #000;
+      margin-top: 16px;
+    }
+
+    .tab {
+      width: 30%;
+      background-color: #ffffff;
+      border-right: 1px solid #000;
+    }
+
+    .tab button {
+      display: block;
+      width: 100%;
+      padding: 18px 16px;
+      border: none;
+      background: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .tab button:hover {
+      background-color: #eee;
+    }
+
+    .tab button.active {
+      background-color: #ccc;
+    }
+
+    .tabcontent-wrapper {
+      width: 70%;
+    }
+
+    .tabcontent {
+      padding: 16px;
+      background-color: #f1a44d;
+      display: none;
+    }
+
+    /* Fraction styling (clean & reusable) */
+    .fraction {
+      display: inline-grid;
+      grid-template-rows: auto auto;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .numerator {
+      border-bottom: 1px solid black;
+      padding: 0 0.25em;
+    }
+
+    .denominator {
+      padding: 0 0.25em;
+    }
+    </style>
+
+    <!-- Math Tabs Script -->
+    <script>
+    function openMathTab(evt, tabName) {
+      var i, tabcontent, tablinks;
+
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+
+      document.getElementById(tabName).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
+    </script>
+
+
     <!-- Logical Structure Section -->
-    <div class="w3-container w3-padding-32" id="LogicalStructure">
+    <div class="w3-container w3-padding-14" id="LogicalStructure">
       <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Logical Structure</h3>
       <p>
         The system supports three distinct gameplay modes: a physical button, a microphone
