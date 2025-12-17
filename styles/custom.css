@@ -1,17 +1,19 @@
-/* Full-page Flappy Bird background */
+html, body {
+  height: 100%;
+}
+
+/* Flappy Bird background */
 body {
-  background-image: url("../assets/flappybird_bg.png");
+  background-image: url("../assets/images/flappy-bg.png");
   background-repeat: repeat-x;
   background-position: bottom center;
   background-size: auto 300px;
-  background-color: #4ec0ca; /* sky fallback */
-  min-height: 100vh;
+  background-color: #4ec0ca;
 }
 
-/* Main content panel */
+/* IMPORTANT: make main transparent */
 .w3-main {
-  background: rgba(255, 255, 255, 0.92);
-  min-height: 100vh;
+  background: transparent !important;
 }
 
 /* Content blocks */
