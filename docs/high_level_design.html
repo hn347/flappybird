@@ -112,10 +112,87 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
         Inputs from all peripherals are processed in protothread_input. 
       </p>
       
-      <p>
-        These modes are navigated via a mode-switching button wired to GPIO 15, which set 
-        mode_state to one of three modes with the following processes: 
         <p>
+          These modes are navigated via a mode-switching button wired to GPIO 15, which sets 
+          <code>mode_state</code> to one of three modes with the following processes:
+        </p>
+
+        <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-left-align w3-lime">
+          <b>Button Mode</b>
+        </button>
+        <div id="Demo1" class="w3-container w3-hide w3-khaki">
+          <ul>
+            <li>Poll digital arcade button, wired to GPIO 13, every five increments of
+                <code>arcade_counter</code>, establishing ~5ms intervals for debouncing.</li>
+            <li>Debounce the button input by comparing <code>arcade_prev</code> and
+                <code>arcade_now</code> If the previous and current arcade button press values do not match we know a press is complete.</li>
+            <li>Trigger a flap by setting the bird's y-velocity to -7 and trigger DMA
+                to send the flap sound to the DAC.</li>
+          </ul>
+        </div>
+
+        <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-left-align w3-light-green">
+          <b>Microphone Mode</b>
+        </button>
+        <div id="Demo2" class="w3-container w3-hide w3-yellow">
+          <ul>
+            <li>Read 12-bit ADC samples from the microphone on GPIO 26.</li>
+            <li>Maintain a rolling average to establish a baseline noise level.</li>
+            <li>If the difference exceeds <code>MIC_THRESHOLD</code> (3500), trigger a flap.</li>
+          </ul>
+        </div>
+
+        <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-left-align w3-green w3-text-black">
+          <b>IMU Mode</b>
+        </button>
+        <div id="Demo3" class="w3-container w3-hide w3-amber">
+          <ul>
+            <li>The program processes data from the inertial measurement unit every twenty increments of <code>imu_counter</code>, for ~20 ms polling intervals.</li>
+            <li>We use the y and z accelerations to approximate the horizonal acceleration. We store the value as a baseline, and subsequently calculate deviations from this value. </li>
+            <li>If this difference, <code>delta_tilt</code> surpasses <code>TILT_UP_THRESHOLD</code>, a flap and flap sound effect are triggered.</li>
+          </ul>
+        </div>
+
+        <script>
+        function myFunction(id) {
+          var x = document.getElementById(id);
+          if (x.className.indexOf("w3-show") === -1) {
+            x.className += " w3-show";
+          } else {
+            x.className = x.className.replace(" w3-show", "");
+          }
+        }
+        </script>
+
+
+        <!-- <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-left-align">
+        <b> Button Mode </b></button>
+        <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-left-align">
+        <b> Microphone Mode </b></button>
+        <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-left-align">
+        <b> IMU Mode </b></button> -->
+
+<!-- 
+        <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-left-align">
+        <b> Button Mode </b></button>
+        <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-left-align">
+        <b> Microphone Mode </b></button>
+        <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-left-align">
+        <b> IMU Mode </b></button>
+
+        
+
+        <script>
+        function myFunction(id) {
+          var x = document.getElementById(id);
+          if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+          } else {
+            x.className = x.className.replace(" w3-show", "");
+          }
+        }
+        </script>
+
           <b>1. Button Mode: </b>
           <ul>
           <li>Poll digital arcade button, wired to GPIO 13, every five increments of arcade_counter, 
@@ -141,7 +218,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
         </ul>
         </p>
         
-      </p>
+      </p> -->
 
       <p>
         The system is divided across both RP2040 cores. Core 0 is responsible for VGA graphics
