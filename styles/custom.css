@@ -4,8 +4,8 @@ html, body {
 
 /* Flappy Bird background */
 body {
-  background: red !important;
-  background-image: url("../assets/flappybird_bg.png");
+  /* background: red !important; */
+  background-image: url("/flappybird/assets/flappybird_bg.png");
   background-repeat: repeat-x;
   background-position: bottom center;
   background-size: auto 300px;
