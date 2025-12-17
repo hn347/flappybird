@@ -1,41 +1,11 @@
-html, body {
-  height: 100%;
-}
-
-/* Flappy Bird background */
 body {
-  /* background: red !important; */
+  background-color: #4ec0ca;
   background-image: url("/flappybird/assets/flappybird_bg.png");
   background-repeat: repeat-x;
   background-position: bottom center;
   background-size: auto 300px;
-  background-color: #4ec0ca;
 }
 
-/* IMPORTANT: make main transparent */
 .w3-main {
   background: transparent !important;
-}
-
-/* Content blocks */
-.w3-container {
-  background: rgba(255, 255, 255, 0.85);
-  border-radius: 10px;
-  padding: 16px;
-}
-
-/* Softer navbar */
-.w3-bar.w3-theme {
-  background-color: #2e7d8a !important;
-}
-
-/* Remove harsh theme colors */
-.w3-theme-l1,
-.w3-theme-l5 {
-  background-color: transparent !important;
-}
-
-/* Headings */
-h1, h2 {
-  font-weight: 600;
 }
