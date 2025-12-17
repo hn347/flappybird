@@ -1,6 +1,6 @@
 /* Full-page Flappy Bird background */
 body {
-  background-image: url("../assets/images/flappy-bg.png");
+  background-image: url("../assets/flappybird_bg.png");
   background-repeat: repeat-x;
   background-position: bottom center;
   background-size: auto 300px;
