@@ -55,12 +55,12 @@
   <!-- Overview Section -->
   <div class="w3-container w3-padding-32" id="about">
     <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Overview</h3>
-    <p>This project implements a complete recreation, and expansion, of Dong Nguyen's popular 2013 mobile game, <em>Flappy Bird</em>. The game is structured like the original, including
+    <p style="text-align: justify;">This project implements a complete recreation, and expansion, of Dong Nguyen's popular 2013 mobile game, <em>Flappy Bird</em>. The game is structured like the original, including
         gravity-based motion, scrolling obstacles, hand-drawn sprites, scoring, and sound effects. Our version expands upon this by introducing multi-modal gameplay, letting the player use either a button, their voice, or a handheld remote to generate flaps. Our project was implemented on the RP2040
         microcontroller, generating a 640×480 VGA video signal entirely in software while simultaneously handling real-time input, physics, optimized collision detection, and audio
         synthesis. 
     </p>
-    <p>
+    <p style="text-align: justify;">
       The motivation for this project was to recreate a game we had enjoyed when younger, while also exploring the limits of what can be achieved on a
       resource-constrained microcontroller.
       Generating VGA video, mixing audio, and handling sensor input concurrently presents a high workload for the system, so we met timing constraints by making optimizations like only checking the pipe nearest to the bird for collisions, or using fixed-point arithmetic.

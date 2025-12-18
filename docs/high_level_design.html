@@ -45,13 +45,13 @@
     <!-- Rationale and Sources Section -->
     <div class="w3-container w3-padding-32" id="RationaleandSources">
       <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Rationale and Sources</h3>
-      <p>
+      <p style="text-align: justify;">
         <em>Flappy Bird</em> was chosen because its gameplay is simple yet demanding from a
         real-time systems perspective. Smooth animation, precise collision detection, and
         responsive controls require careful timing and efficient memory usage, especially when
         implemented without dedicated graphics hardware.
       </p>
-      <p>
+      <p style="text-align: justify;">
         The project builds on publicly available RP2040 VGA graphics libraries. Several characteristics
         of our code, like the use of direct digital synthesis or fixed point arithmetic, are adapted versions of the models provided by Bruce Land or Hunter Van Adams on the Cornell ECE 4760 website. 
         All third-party code and references are explicitly cited in later sections of this report.
@@ -64,7 +64,7 @@
         Mathematical Background
       </h3>
 
-      <p>
+      <p style="text-align: justify;">
         This project makes use of mathematics to generate visuals, audio, and provide realistic gameplay dynamics.
         Explore these applications below:
       </p>
@@ -90,7 +90,7 @@
           <div id="MotionSim" class="tabcontent">
             <h3>Discrete-Time Gravity & Motion Simulation</h3>
 
-            <p>
+            <p style="text-align: justify;">
               Our bird, Flappy, only flies up and down along a fixed x-coordinate, and the obstacles scroll
               from right to left at a constant velocity. This allows us to use simple one-dimensional
               kinematic equations to model Flappy's vertical motion under constant gravity.
@@ -119,7 +119,7 @@
               and <em>y(t)</em> is vertical position.
             </p>
 
-            <p>
+            <p style="text-align: justify;">
               Our system operates in discrete time, updating once per video frame. Therefore,
               the equations become:
             </p>
@@ -140,7 +140,7 @@
 
         <div id="SpriteRotation" class="tabcontent">
           <h3>Sprite Rotation</h3>
-            <p>
+            <p style="text-align: justify;">
               To enhance realism, the bird sprite is rendered with a rotation that reflects its 
               arched trajectory as it flaps up and down. This rotation is rooted in standard two-dimensional
               coordinate transformation math. If the bird sprite is a collection of pixels in the coordinate frame, each with coordinate (x, y),
@@ -166,7 +166,7 @@
                 </p>
                 <p style="text-align:center;">
                   x′ = x cos<em>&theta;</em> − y sin<em>&theta;</em>, y′ = x sin<em>&theta;</em> + y cos<em>&theta;</em>
-                </p>
+                </p style="text-align: justify;">
               The trigonometric values sin<em>&theta;</em> and cos<em>&theta;</em>, as well as degree-to-radian conversions, are computed
               once per frame and stored as fixed-points, avoiding unncessary repeat calculations. The <code>drawFlappyBirdSpriteRotated</code> 
               function iterates through the pixels in the sprite, decodes the pixel's color and transparency, and finds the position vector of a given 
@@ -214,7 +214,7 @@
         </div> 
         <div id="DDS" class="tabcontent">
             <h3>Direct Digital Synthesis of Background Music</h3>
-            <p>
+            <p style="text-align: justify;">
               The background music for our game is generated using direct digital synthesis (DDS), 
               which uses a phase accumulator that advances at a rate proportional to the frequency of
               the musical note being produced. We used ChatGPT to generate a melody, which is stored as the frequencies (Hz) 
@@ -245,14 +245,14 @@
             <p>
               where <em>f<sub>s</sub></em> is the sampling frequency.
             </p>
-            <p>
+            <p style="text-align: justify;">
               Our program initializes the arpeggio by calculating the appropriate phase increments
               for each note frequency. The accumulator value is then used to index into a table containing a 
               periodic waveform created with <code>init_bgm_table()</code>. Each table index represents a discrete 
               phase value, obtained by masking the index to an 8-bit phase range (0-255). By accessing these values within
               an interrupt service routine, we ensure rapid, evenly spaced audio sample generation. 
             </p>
-            <p>
+            <p style="text-align: justify;">
               To produce smooth sounding notes that fit a lo-fi style background track, our precomputed DDS waveform 
               linearly ramps upward from 0 to 4095, the maximum value the digital-to-analog converter allows, and linearly ramps
               back down to 0 after.
@@ -349,7 +349,7 @@
     <!-- Logical Structure Section -->
     <div class="w3-container w3-padding-14" id="LogicalStructure">
       <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Logical Structure</h3>
-      <p>
+      <p style="text-align: justify;">
         The system supports three distinct gameplay modes: a physical button, a microphone
         input for sound-triggered flapping, and an inertial measurement unit (IMU) that allows
         the player to control the bird by waving the remote. Once in a mode, the game begins once the program
@@ -357,7 +357,7 @@
         Inputs from all peripherals are processed in protothread_input. 
       </p>
       
-      <p>
+      <p style="text-align: justify;">
         These modes are navigated via a mode-switching button wired to GPIO 15, which sets 
         <code>mode_state</code> to one of three modes with the following processes:
       </p>
@@ -398,7 +398,7 @@
         </ul>
       </div>
 
-      <p>
+      <p style="text-align: justify;">
         The system is divided across both RP2040 cores. Core 0 is responsible for VGA graphics
         generation, game state updates, physics, collision detection, and rendering. Core 1
         handles asynchronous input sources including the microphone, IMU, and mode-selection
@@ -406,16 +406,32 @@
         requirements while still responding to real-world inputs.
       </p>
 
-      <p>
+      <p style="text-align: justify;">
         VGA output is generated using PIO state machines and DMA transfers to stream pixel data
         with high precision. Audio output is produced through an external SPI DAC, with sound
         effects handled via DMA for low-latency playback and background music synthesized using
         direct digital synthesis (DDS) driven by a hardware timer interrupt.
       </p>
 
-      <p>
+      <p style="text-align: justify;">
         Together, these components form a tightly integrated embedded system that demonstrates
         real-time graphics, audio, sensing, and control on a single microcontroller.
+      </p>
+    </div>
+
+        <!-- Copyright Section -->
+    <div class="w3-container w3-padding-16" id="CopyrightConsiderations">
+      <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Copyright Considerations</h3>
+      <p style="text-align: justify;">
+        Dong Nguyen first attempted to trademark <em>Flappy Bird</em>, but the ownership and registration
+        has been disputed, with Gametech Holdings attempting a relaunch. For these reasons, using the exact name
+        "<em>Flappy Bird</em>", with such a strong similarity in gameplay, may trigger trademark claims if this were
+        to be launched as product.
+      </p>
+      <p style="text-align: justify;">
+        The project builds on publicly available RP2040 VGA graphics libraries. Several characteristics
+        of our code, like the use of direct digital synthesis or fixed point arithmetic, are adapted versions of the models provided by Bruce Land or Hunter Van Adams on the Cornell ECE 4760 website. 
+        All third-party code and references are explicitly cited in later sections of this report.
       </p>
     </div>
 
