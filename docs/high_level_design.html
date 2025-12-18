@@ -167,7 +167,7 @@
                 <p style="text-align:center;">
                   x′ = x cos<em>&theta;</em> − y sin<em>&theta;</em>, y′ = x sin<em>&theta;</em> + y cos<em>&theta;</em>
                 </p>
-              The trigonometric values sin<em>&theta;</em> and cos<em>&theta;</em> are computed
+              The trigonometric values sin<em>&theta;</em> and cos<em>&theta;</em>, as well as degree-to-radian conversions, are computed
               once per frame and stored as fixed-points, avoiding unncessary repeat calculations. The <code>drawFlappyBirdSpriteRotated</code> 
               function iterates through the pixels in the sprite, decodes the pixel's color and transparency, and finds the position vector of a given 
               point in the sprite from the sprite's center. Using the aforementioned rotation formulas, these vectors are transformed and added
@@ -177,14 +177,87 @@
               To prevent abrupt changes in the bird's orientation, the rotation angle is updated via a smoothing filter (with alpha = 0.15): <br>
               <p style="text-align:center;"><em>&theta;</em><sub>n+1</sub>​ = <em>&theta;</em><sub>n</sub> ​+ α(<em>&theta;</em><sub>target</sub> ​− <em>&theta;</em><sub>n</sub>​),</p>
             <p> This code, contained in <code>update_bird_angle</code> gradually shifts the rotation angle of the bird to <code>target_angle</code>.</p> 
+            <p>
+              Based on the sign and magnitude of <em>v</em><sub>y</sub>, a target rotation angle is selected:
+            </p>
+
+            <div style="display:flex; justify-content:center; align-items:flex-start; margin-top:10px;">
+
+              <!-- Left side: theta_target = -->
+              <div style="padding-right:8px; font-size:1.1em;"> <br>
+                <em>&theta;</em><sub>target</sub> =
+              </div>
+
+              <!-- Curly brace -->
+              <div style="font-size:5em; line-height:1; padding-right:6px;
+            font-family:'Times New Roman', serif; font-weight:normal;">
+                {
+              </div>
+
+              <!-- Cases -->
+              <div style="text-align:left; line-height:1.6;">
+                &minus;15<sup>&deg;</sup>, &nbsp;
+                <em>v</em><sub>y</sub> &lt; &minus;2 &nbsp; (ascending)
+                <br>
+                20<sup>&deg;</sup>, &nbsp;
+                <em>v</em><sub>y</sub> &gt; 2 &nbsp; (falling)
+                <br>
+                0<sup>&deg;</sup>, &nbsp;
+                |<em>v</em><sub>y</sub>| &le; 2 &nbsp; (near neutral)
+              </div>
+
+              
+
+            </div>
+
         </div
         </div> 
         <div id="DDS" class="tabcontent">
             <h3>Direct Digital Synthesis of Background Music</h3>
             <p>
-              yap yap yap
+              The background music for our game is generated using direct digital synthesis (DDS), 
+              which uses a phase accumulator that advances at a rate proportional to the frequency of
+              the musical note being produced. We used ChatGPT to generate a melody, which is stored as the frequencies (Hz) 
+              of the eight notes. 
             </p>
-      
+            <p>
+              At each audio sample:
+            </p>
+            <p style="text-align:center">
+              <em>&Phi;</em>[<em>n</em>+1] = <em>&Phi;</em>[<em>n</em>] + &Delta;<em>&Phi;</em>
+            </p>
+            <p>
+              where &Phi; is the accumulator and  &Delta;<em>&Phi;</em> is the phase increment. 
+              The output frequency <em>f</em> is determined by
+            </p>
+            <div style="text-align:center; margin-top:8px;">
+              &Delta;<em>&Phi;</em> =
+              <span style="display:inline-block; text-align:center;">
+                <span style="display:block; border-bottom:1px solid black; padding:0 4px;">
+                  <em>f</em>
+                </span>
+                <span style="display:block;">
+                  <em>f</em><sub>s</sub>
+                </span>
+              </span>
+              &middot; 2<sup><em>32</em></sup>
+            </div>
+            <p>
+              where <em>f<sub>s</sub></em> is the sampling frequency.
+            </p>
+            <p>
+              Our program initializes the arpeggio by calculating the appropriate phase increments
+              for each note frequency. The accumulator value is then used to index into a table containing a 
+              periodic waveform created with <code>init_bgm_table()</code>. Each table index represents a discrete 
+              phase value, obtained by masking the index to an 8-bit phase range (0-255). By accessing these values within
+              an interrupt service routine, we ensure rapid, evenly spaced audio sample generation. 
+            </p>
+            <p>
+              To produce smooth sounding notes that fit a lo-fi style background track, our precomputed DDS waveform 
+              linearly ramps upward from 0 to 4095, the maximum value the digital-to-analog converter allows, and linearly ramps
+              back down to 0 after.
+            </p>
+            
         </div>
 
       </div>
@@ -230,7 +303,7 @@
 
     .tabcontent {
       padding: 16px;
-      background-color: #f1a44d;
+      background-color: #81c4fa;
       display: none;
     }
 
