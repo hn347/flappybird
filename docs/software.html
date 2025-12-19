@@ -42,7 +42,7 @@
   <!-- Page content -->
   <div class="w3-content w3-padding" style="max-width:1564px">
 
-    <!-- Rationale and Sources Section -->
+    <!-- Organizing Functionality Across Protothreads Section -->
     <div class="w3-container w3-padding-32" id="OrganizingFunctionalityAcrossProtothreads" style = "text-align: justify">
       <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Organizing Functionality Across Protothreads</h3>
       <p style="text-align: justify;">
@@ -51,8 +51,173 @@
         while asynchronous input processing occurs on core 1. Our audio synthesis runs outside
         the protothread scheduler using hardware timer interrupt mechanism and direct memory access (DMA).
       </p>
-      <p>
-      </p>
+      <div class="w3-bar w3-border-light-grey w3-emerald">
+        <button class="w3-bar-item w3-button" onclick="openCity('protothread_anim')"><code>protothread_anim</code></button>
+        <button class="w3-bar-item w3-button" onclick="openCity('protothread_play_mode')"><code>protothread_play_mode</code></button>
+        <!-- <button class="w3-bar-item w3-button" onclick="openCity('Tokyo')">Tokyo</button> -->
+      </div>
+
+      <div id="protothread_anim" class="city">
+        <h3><code>protothread_anim</code>: Animation, Physics, and Rendering</h3>
+        <p style="text-align: justify;">
+          <code>protothread_anim</code> is responsible for animation,
+          physics updates, collision detection, scoring, and VGA rendering. This 
+          protothread executes on core 0, once per video frame, or about 33 ms per frame. This portion of
+          the program is structured as a frame-by-frame loop with a sequence of stages executing once per frame.
+        </p>
+
+        <button onclick="myFunction('Demo0')" class="w3-button w3-block w3-left-align w3-light-green">
+        <b>Game State Representation</b>
+      </button>
+      <div id="Demo0" class="w3-container w3-hide w3-yellow">
+        <p style="text-align: justify;">
+          The bird's motion and orientation are represented using a small set of fixed point variables: 
+           is stored in , its vertical velocity is 
+          stored in <code>bird_vy</code>, both in <code>fix15</code> for efficient computations. The bird's rotation angle,
+          <code>bird_angle_deg</code>, is also fixed-point. 
+        </p>
+        <ul>
+          <li><code>bird_y</code> (<code>fix15</code>) - The vertical position of the bird, with lower values being higher on the screen.</li>
+          <li><code>bird_x</code> (<code>fix15</code>) - The horizontal position of the bird, which remain constant, simplifying the calculations.</li>
+          <li><code>bird_vy</code> (<code>fix15</code>) - The vertical velocity of the bird.</li>
+          <li><code>bird_angle_deg</code> (<code>fix15</code>) - The rotation angle of the bird, in degrees.</li>
+        </ul>
+        <p style="text-align: justify;">
+          Pipe state is stored using arrays with each index representing a vertical pipe-pair. Each pair has its y position
+          stored in <code>pipet_y[i]</code> and <code>pipeb_y[i]</code> (top and bottom pipe). Additional Boolean arrays like <code>pipe_scored[i]</code> and 
+          <code>pipe_just_reset[i]</code> track scoring state and ensure the pipes scroll smoothly off and into the screen without visual artifacts.  
+        </p>
+      </div>
+        
+        <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-left-align w3-lime">
+        <b>Initialization</b>
+      </button>
+      <div id="Demo1" class="w3-container w3-hide w3-khaki">
+        <p style="text-align: justify;">
+          When the game begins the pipe state is reset using <code>init_all_pipes</code> and <code>init_pipe_pair(pipe_index)</code>.
+          The former does a full reset of the pipe array at the game's start, calling the latter for each pipe pair, spacing them across the screen
+          evenly. 
+        </p>
+        <p style="text-align: justify;">
+          Within <code>init_pipe_pair</code>, the verical position of the pipe gap is generated using a bounded random number based on <code>SCREEN_HEIGHT</code>
+          and <code>PIPE_GAP_HEIGHT</code>. The gap center, <code>pipe_gap_y[i]</code>, is chosen such that the whole gap is always within screen limits.
+        </p>
+      </div>
+
+      <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-left-align w3-light-green">
+        <b>Motion Updates</b>
+      </button>
+      <div id="Demo2" class="w3-container w3-hide w3-yellow">
+        <p style="text-align: justify;">
+          Each frame, gravity is applied to the bird by incrementing <code>bird_vy</code> with a fixed-point gravity constant. The updated velocity is then integrated
+          into the bird’s vertical position by adding <code>bird_vy</code> to <code>bird_y</code>.
+        </p>
+        <p style="text-align: justify;">
+          When a flap input is detected, <code>bird_vy</code> is immediately set to 
+          a fixed negative value, producing an upward impulse that overrides gravity for that frame. This model produces responsive 
+          and predictable motion for each flap.
+        </p>
+        
+
+      </div>
+
+      <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-left-align w3-green w3-text-black">
+        <b>Nearest Pipe Selection & Collision Detection</b>
+      </button>
+      <div id="Demo3" class="w3-container w3-hide w3-amber">
+        <p style="text-align: justify;">
+          To reduce the computational cost of collision detection, the code does not test the bird against every pipe on the screen. 
+          Instead, it scans the <code>pipe_x[]</code> array to find the nearest pipe pair in front of the bird, whose right edge is at or 
+          beyond the bird’s fixed x-position and whose horizontal distance from the bird is minimal. Since the bird can only interact with 
+          one pipe pair at a time, this optimization significantly reduces unnecessary comparisons.
+        </p>
+        <p style="text-align: justify;">
+          Collision detection is performed using axis-aligned bounding box overlap tests between the bird and the nearest pipe pair. 
+          For the bird, top, bottom, left, and right boundaries are computed from <code>bird_y</code>, <code>bird_x</code>, and the bird’s width and height constants.
+          For the pipe, the left and right boundaries are derived from <code>pipe_x[i]</code> and <code>PIPE_WIDTH</code>, while the top and bottom of the gap are 
+          computed from <code>pipe_gap_y[i]</code> and <code>PIPE_GAP_HEIGHT</code>.
+        </p>
+        <p style="text-align: justify;">
+          A collision is detected when horizontal overlap exists between the bird and the pipe and the bird’s vertical bounds lie outside the gap region. Separate 
+          checks are performed to detect collisions with the top and bottom of the screen. If any collision condition is met, the game transitions immediately to the end state.
+        </p>
+      </div>
+
+      <button onclick="myFunction('Demo4')" class="w3-button w3-block w3-left-align w3-lime">
+        <b>Scoring Logic & State-Drive Screens</b>
+      </button>
+      <div id="Demo4" class="w3-container w3-hide w3-khaki">
+        <p style="text-align: justify;">
+          Score updates are integrated in the pipe update logic. Scoring is done inside the update() 
+          function during each animation frame, after pipe positions have been updated but before rendering occurs. For each pipe pair, the code computes the right edge 
+          of the pipe using <code>pipe_right_px</code> = <code>fix2int15(pipet_x[i])</code> + <code>PIPE_WIDTH</code> and compares it to the bird’s horizontal position. 
+          If the bird has passed this edge and the pipe has not already been counted (<code>pipe_scored[i] == false</code>), the score is incremented and the flag is set to prevent double scoring.
+        </p>
+        <p style="text-align: justify;">
+          After incrementing the score, the code checks whether the new score exceeds the current <code>high_score</code>, updating it if necessary. A point sound effect is then triggered via <code>sfx_play(SFX_POINT)</code>, 
+          providing immediate audio feedback tied directly to the scoring event. Upon detecting a hit, the current score is copied into <code>last_score_on_death</code>, the high score is updated if needed, and the active score counter 
+          is reset to zero. This separation allows the end screen to display the final score from the previous run without interfering with the next game cycle.
+        </p>
+        <p style="text-align: justify;">
+          Screen rendering is driven entirely by the current value of the global <code>state</code> variable, and after clearing the frame buffer, the code selects which screen to draw based on this state.
+          
+        </p>
+      </div>
+          
+        </p>
+      </div>
+
+
+      <div id="protothread_play_mode" class="city" style="display:none">
+        <h3><code>protothread_play_mode</code>: Input Handling & Mode FSM</h3>
+        <p><strong>Purpose</strong></p>
+        <p style="text-align: justify;">
+          <code>protothread_anim</code> is the primary loop responsible for animation,
+          physics updates, collision detection, scoring, and VGA rendering.
+        </p>
+        
+      </div>
+
+      <style>
+        .city {
+          padding: 16px;
+          background-color: #d9f1ff;  /* light blue */
+          border: 1px solid #99ccee;
+        }
+      </style>
+      <style>
+        .tab-bar {
+          display: flex;           /* Use flex layout */
+        }
+
+        .tab-bar .w3-button {
+          flex: 1;                 /* Each button takes equal width */
+          text-align: center;      /* Center the text */
+        }
+      </style>
+
+      <script>
+        function openCity(cityName) {
+          var i;
+          var x = document.getElementsByClassName("city");
+          for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+          }
+          document.getElementById(cityName).style.display = "block";
+        }
+      </script>
+
+      <script>
+      // Toggle dropdown function
+      function myFunction(id) {
+        var x = document.getElementById(id);
+        if (x.className.indexOf("w3-show") === -1) {
+          x.className += " w3-show";
+        } else {
+          x.className = x.className.replace(" w3-show", "");
+        }
+      }
+      </script>
 
 
   </div>
