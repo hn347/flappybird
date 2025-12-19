@@ -6,19 +6,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/* Mobile menu */
+.mobile-menu { display: none; }
+@media (max-width: 600px) {
+  .mobile-menu { display: block; }
+  .header-title { font-size: 36px !important; }
+}
+@media (max-width: 992px) {
+  .header-title { font-size: 48px !important; }
+}
+</style>
 </head>
 <body>
 
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
   <div class="w3-bar w3-white w3-wide w3-padding w3-card">
-    <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
     <a href="index.html" class="w3-bar-item w3-button">
       <img src="flappybird.png" alt="Flappy Bird" style="height: 36px; vertical-align: middle;">
     </a>
+    <!-- Mobile menu button -->
+    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right mobile-menu" onclick="toggleMobileMenu()">
+      <i class="fa fa-bars"></i>
+    </a>
     <!-- Float links to the right. Hide them on small screens -->
     <div class="w3-right w3-hide-small">
-      <!-- <a href="index.html" class="w3-bar-item w3-button">Introduction</a> -->
       <a href="high_level_design.html" class="w3-bar-item w3-button">High Level Design</a>
       <a href="hardware.html" class="w3-bar-item w3-button">Hardware Design</a>
       <a href="software.html" class="w3-bar-item w3-button">Software Design</a>
@@ -27,13 +40,22 @@
       <a href="appendix.html" class="w3-bar-item w3-button w3-hide-medium">Appendix</a>
     </div>
   </div>
+  <!-- Mobile dropdown menu -->
+  <div id="mobileMenu" class="w3-bar-block w3-white w3-hide w3-card">
+    <a href="high_level_design.html" class="w3-bar-item w3-button">High Level Design</a>
+    <a href="hardware.html" class="w3-bar-item w3-button">Hardware Design</a>
+    <a href="software.html" class="w3-bar-item w3-button">Software Design</a>
+    <a href="results.html" class="w3-bar-item w3-button">Results</a>
+    <a href="conclusions.html" class="w3-bar-item w3-button">Conclusions</a>
+    <a href="appendix.html" class="w3-bar-item w3-button">Appendix</a>
+  </div>
 </div>
 
 <!-- Header -->
 <header class="w3-display-container w3-content w3-wide" style="max-width:1500px;" id="home">
   <img class="w3-image" src="flappybird_bg.png" alt="Background" width="1500" height="800">
   <div class="w3-display-middle w3-margin-top w3-center">
-    <h1 class="w3-xxlarge w3-text-white" style="font-size: 72px;"><span class="w3-padding w3-black w3-opacity-min"><b>High Level Design</b></span></h1>
+    <h1 class="w3-xxlarge w3-text-white header-title" style="font-size: 72px;"><span class="w3-padding w3-black w3-opacity-min"><b>High Level Design</b></span></h1>
   </div>
 </header>
 
@@ -451,6 +473,16 @@
 // Toggle dropdown function
 function myFunction(id) {
   var x = document.getElementById(id);
+  if (x.className.indexOf("w3-show") === -1) {
+    x.className += " w3-show";
+  } else {
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
+// Toggle mobile menu
+function toggleMobileMenu() {
+  var x = document.getElementById("mobileMenu");
   if (x.className.indexOf("w3-show") === -1) {
     x.className += " w3-show";
   } else {
