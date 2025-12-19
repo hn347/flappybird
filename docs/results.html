@@ -69,12 +69,65 @@
     <div class="w3-container w3-padding-32" id="Results">
       <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Results</h3>
       <p>
-        The results of the project are best evaluated by actually playing the game on the RP2040 and VGA setup. The game should feel responsive when the player flaps, the animation should look smooth and stable at a steady frame rate, collisons and scoring should behave consistently, and the audio feedback should be immediate and correct. 
-      </p>
-      <p>
-        We implemented everything that was proposed in our final project demo. In our final implementation, this included the players being able to select between the three control modes: an arcase button flap, microphone-triggered flap, or IMU tilt flap. 
+        The results of our project are best evaluated through direct gameplay on the RP2040 and VGA setup.
+        Many of the most important performance features like responsiveness, smoothness, and usability are inherently
+        qualitative and are immediately apparent when playing the game. Overall, the game behaves as intended:
+        player inputs feel responsive, animation remains stable at a fixed frame rate, collisions and scoring
+        are consistent, and audio feedback is immediate and correct.
       </p>
 
+      <p>
+        In terms of execution speed and interactivity, the game maintains a fixed frame period 30 FPS. 
+        During game play, weobserved no noticeable hesitation or stalling.
+        Pipe movements, bird physics, collision detection, and scoring all occur smoothly, even while background audio
+        playback and sound effects playback are happening concurrently.
+      </p>
+
+      <p>
+        Concurrency is handled explicitly in the design. Animations and game physics execute on core&nbsp;0,
+        while gameplay input (arcade button, microphone ADC sampling, and IMU tilt detection) runs on core&nbsp;1.
+        This separation prevents sensor reads or button polling from blocking animation. Audio playback is
+        handled separately from the main game code. Background music is generated at a fixed 50&nbsp;kHz
+        sample rate using a timer interrupt, and sound effects are sent to the DAC via DMA. As a result,
+        simultaneous events such as flapping, scoring, and collisions do not interfere with visual performance.
+      </p>
+
+      <p>
+        We checked timing and accuracy by watching and listening to the game while it was running. The VGA display 
+        was stable, with no visible screen tearing or syncing issues. The bird’s motion behaved consistently from 
+        frame to frame, and the background music played at steady, correct pitches. Sound effects also played at the
+         right times and sounded consistent each time they were triggered
+      </p>
+
+      <p>
+        From a usability perspective, the game is intuitive for both developers and new users. The start screen
+        clearly displays the selected control mode and allows users to cycle between button, microphone, and IMU
+        inputs without restarting the system. The visual feedback such as the rotating bird sprite, scrolling pipes,
+        and large score display makes gameplay easy to understand. Informal testing by teammates and peers showed
+        that all three control modes were playable. 
+      </p>
+
+      <!-- Image Gallery -->
+      <div class="w3-row-padding w3-padding-16">
+        <div class="w3-half w3-margin-bottom">
+          <img src="start_screen.jpg" alt="Result 1" style="width:100%">
+          <p class="w3-center">Caption for image 1</p>
+        </div>
+        <div class="w3-half w3-margin-bottom">
+          <img src="gameplay_screen.jpg" alt="Result 2" style="width:100%">
+          <p class="w3-center">Caption for image 2</p>
+        </div>
+      </div>
+      <div class="w3-row-padding">
+        <div class="w3-half w3-margin-bottom">
+          <img src="gameover_screen.jpg" alt="Result 3" style="width:100%">
+          <p class="w3-center">Caption for image 3</p>
+        </div>
+        <div class="w3-half w3-margin-bottom">
+          <img src="game_setup.jpg" alt="Result 4" style="width:100%">
+          <p class="w3-center">Caption for image 4</p>
+        </div>
+      </div>
 
   </div>
   <!-- End page content -->
