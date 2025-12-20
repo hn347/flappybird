@@ -92,7 +92,7 @@
         <button onclick="myFunction('Demo0')" class="w3-button w3-block w3-left-align w3-light-green">
         <b>Game State Representation</b>
       </button>
-      <div id="Demo0" class="w3-container w3-hide w3-yellow">
+      <div id="Demo0" class="w3-container w3-hide w3-khaki">
         <p style="text-align: justify;">
           The bird's motion and orientation are represented using a small set of fixed point variables: 
         </p>
@@ -112,7 +112,7 @@
       <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-left-align w3-lime">
         <b>Finite State Machine</b>
       </button>
-      <div id="Demo2" class="w3-container w3-hide w3-yellow">
+      <div id="Demo2" class="w3-container w3-hide w3-khaki">
         <p style="text-align: justify;">
           Each frame, gravity is applied to the bird by incrementing <code>bird_vy</code> with a fixed-point gravity constant. The updated velocity is then integrated
           into the bird’s vertical position by adding <code>bird_vy</code> to <code>bird_y</code>. When a flap input is detected, <code>bird_vy</code> is immediately set to 
@@ -172,7 +172,7 @@
       <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-left-align w3-green w3-text-black">
         <b>Nearest Pipe Selection & Collision Detection</b>
       </button>
-      <div id="Demo3" class="w3-container w3-hide w3-amber">
+      <div id="Demo3" class="w3-container w3-hide w3-khaki">
         <p style="text-align: justify;">
           To reduce the computational cost of collision detection, the code does not test the bird against every pipe on the screen. 
           Instead, it scans the <code>pipe_x[]</code> array to find the nearest pipe pair in front of the bird, whose right edge is at or 
