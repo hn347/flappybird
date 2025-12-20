@@ -421,8 +421,8 @@
           encoding hundreds of hex values by hand. In addition, we used ChatGPT to generate a Python script that converts standard 
           16-bit PCM <code>.wav</code> files into DAC-usable C arrays and header files for our sound effects, allowing us to quickly
            try different recordings and keep the audio pipeline consistent with our SPI/DAC format. Importantly, AI was used for 
-           “tooling” and automation rather than core game logic: we still designed and implemented the VGA rendering pipeline, p
-           hysics, collision/scoring logic, and concurrency across both RP2040 cores ourselves, and we validated the AI-generated 
+           “tooling” and automation rather than core game logic: we still designed and implemented the VGA rendering pipeline, 
+           physics, collision/scoring logic, and concurrency across both RP2040 cores ourselves, and we validated the AI-generated 
            outputs by testing visual correctness on the VGA display and confirming that audio playback sounded correct and did 
            not interrupt gameplay.
         </p>
