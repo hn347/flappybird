@@ -366,9 +366,17 @@
           <em>Pipe Sprite, Drawn on Pixilart</em>
         </figcaption>
       </figure>
-
+      <p style="text-align: justify;">
+        The bird sprite is defined in <code>assets.h</code> as a set of statically initialized arrays that store the pixel color data and
+        transparency mask for each row of the sprite. The sprite is represented as a 32×16 image, with each row split into two 64-bit values
+        corresponding to the left and right halves of the sprite. During gameplay, the rendering code in <code>flappy_bird.c</code> reads
+        these arrays, decodes the color indices, and draws the visible pixels to the VGA framebuffer. A separate mask array is used to skip
+        transparent pixels, allowing the bird to be drawn cleanly over the background and pipes. This approach keeps sprite data separate
+        from game logic while allowing efficient, frame-by-frame rendering of the bird on screen.
+      </p>
+      
       <figure class="w3-center w3-padding-16">
-        <img src="flappybird.png" alt="Flappy Bird Sprite, Drawn on Pixilart" style="max-width: 80%; height: auto;">
+        <img src="flappybird.png" alt="Flappy Bird Sprite, Drawn on Pixilart" style="max-width: 25%; height: auto;">
         <figcaption class="w3-text-grey w3-margin-top">
           <em>Flappy Bird Sprite, Downloaded from ClipArtMax</em>
         </figcaption>
