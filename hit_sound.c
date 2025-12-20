@@ -1,3 +1,5 @@
+// ChatGPT-generated python script used to generate sound effect array.
+
 #include "hit_sound.h"
 
 const uint16_t hit_sfx_data[HIT_SFX_LEN] = {
@@ -2416,3 +2418,4 @@ const uint16_t hit_sfx_data[HIT_SFX_LEN] = {
     0x37FF, 0x37FF, 0x37FF, 0x37FF, 0x37FF, 0x37FF, 0x37FF, 0x37FF, 0x37FF, 0x37FF,
     0x37FF, 0x37FF, 0x37FF, 0x37FF, 0x37FF, 0x37FF, 0x37FF, 0x37FF
 };
+
