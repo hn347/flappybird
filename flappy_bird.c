@@ -532,70 +532,70 @@ static void init_pipe_sprites(void) {
 
 // draws one row in the pipe body
 static inline void pipebody_row32(int xi, int y, const uint8_t* row) {
-    memcpy(&vga_data_array[((SCREEN_WIDTH * y) + xi) >> 1], row, 16);
+  memcpy(&vga_data_array[((SCREEN_WIDTH * y) + xi) >> 1], row, 16);
 }
 
 // draws one row for the top cap
 static inline void cap_sprite_row(int xi, int y, int row) {
-    if ((unsigned)y >= SCREEN_HEIGHT) return;
-    int cap_x = xi - CAP_EXTRA_EACH_SIDE;  
-    if (cap_x < 0 || cap_x + CAP_WIDE_WIDTH > SCREEN_WIDTH) return;
-    memcpy(&vga_data_array[((SCREEN_WIDTH * y) + cap_x) >> 1], pipe_cap_wide_rows8[row], CAP_WIDE_BYTES);
+  if ((unsigned)y >= SCREEN_HEIGHT) return;
+  int cap_x = xi - CAP_EXTRA_EACH_SIDE;  
+  if (cap_x < 0 || cap_x + CAP_WIDE_WIDTH > SCREEN_WIDTH) return;
+  memcpy(&vga_data_array[((SCREEN_WIDTH * y) + cap_x) >> 1], pipe_cap_wide_rows8[row], CAP_WIDE_BYTES);
 }
 
 // draws one row for the bottom cap
 static inline void cap_sprite_row_flipped(int xi, int y, int row) {
-    if ((unsigned)y >= SCREEN_HEIGHT) return;
-    int cap_x = xi - CAP_EXTRA_EACH_SIDE;  
-    if (cap_x < 0 || cap_x + CAP_WIDE_WIDTH > SCREEN_WIDTH) return;
-    memcpy(&vga_data_array[((SCREEN_WIDTH * y) + cap_x) >> 1], pipe_cap_wide_flipped_rows8[row], CAP_WIDE_BYTES);
+  if ((unsigned)y >= SCREEN_HEIGHT) return;
+  int cap_x = xi - CAP_EXTRA_EACH_SIDE;  
+  if (cap_x < 0 || cap_x + CAP_WIDE_WIDTH > SCREEN_WIDTH) return;
+  memcpy(&vga_data_array[((SCREEN_WIDTH * y) + cap_x) >> 1], pipe_cap_wide_flipped_rows8[row], CAP_WIDE_BYTES);
 }
 
 // Draw only the top portion of a top pipe (y=0 to y=top_rows-1)
 static void draw_top_pipe_top_rows(int x, int gap_top, int top_rows) {
-    int xi = x & ~1; // align position
-    if (xi < 0 || xi + PIPE_WIDTH > SCREEN_WIDTH) return;
-    
-    int cap_start = gap_top - 16;
-    if (cap_start < 0) cap_start = 0;
-    
-    int end_y = (top_rows < cap_start) ? top_rows : cap_start;
-    for (int y = 0; y < end_y; y++) {
-        pipebody_row32(xi, y, pipe_body_rows8[y & 15]);
-    }
+  int xi = x & ~1; // align position
+  if (xi < 0 || xi + PIPE_WIDTH > SCREEN_WIDTH) return;
+  
+  int cap_start = gap_top - 16;
+  if (cap_start < 0) cap_start = 0;
+  
+  int end_y = (top_rows < cap_start) ? top_rows : cap_start;
+  for (int y = 0; y < end_y; y++) {
+    pipebody_row32(xi, y, pipe_body_rows8[y & 15]);
+  }
 }
 
 // Draw the rest of a top pipe (from y=top_rows downward)
 static void draw_top_pipe(int x, int gap_top, int top_rows) {
-    int xi = x & ~1;
-    if (xi < 0 || xi + PIPE_WIDTH > SCREEN_WIDTH) return;
-    
-    int cap_start = gap_top - 16;
-    if (cap_start < 0) cap_start = 0;
+  int xi = x & ~1;
+  if (xi < 0 || xi + PIPE_WIDTH > SCREEN_WIDTH) return;
+  
+  int cap_start = gap_top - 16;
+  if (cap_start < 0) cap_start = 0;
 
-    // body: from top_rows to cap_start-1
-    for (int y = top_rows; y < cap_start; y++) {
-        pipebody_row32(xi, y, pipe_body_rows8[y & 15]);
-    }
-    // cap: 16 rows ending at gap_top-1 (wide cap, symmetrical)
-    for (int r = 0; r < 16 && cap_start + r < gap_top && cap_start + r < SCREEN_HEIGHT; r++) {
-        cap_sprite_row(xi, cap_start + r, r);
-    }
+  // body: from top_rows to cap_start-1
+  for (int y = top_rows; y < cap_start; y++) {
+    pipebody_row32(xi, y, pipe_body_rows8[y & 15]);
+  }
+  // cap: 16 rows ending at gap_top-1 (wide cap, symmetrical)
+  for (int r = 0; r < 16 && cap_start + r < gap_top && cap_start + r < SCREEN_HEIGHT; r++) {
+    cap_sprite_row(xi, cap_start + r, r);
+  }
 }
 
 static void draw_bottom_pipe(int x, int gap_bottom) {
-    int xi = x & ~1;
-    // Only draw if pipe is fully on screen
-    if (xi < 0 || xi + PIPE_WIDTH > SCREEN_WIDTH) return;
+  int xi = x & ~1;
+  // Only draw if pipe is fully on screen
+  if (xi < 0 || xi + PIPE_WIDTH > SCREEN_WIDTH) return;
 
-    // cap at gap_bottom..gap_bottom+15 (flipped wide cap for bottom pipe)
-    for (int r = 0; r < 16 && gap_bottom + r < SCREEN_HEIGHT; r++) {
-        cap_sprite_row_flipped(xi, gap_bottom + r, r);
-    }
-    // body from gap_bottom+16 to bottom
-    for (int y = gap_bottom + 16; y < SCREEN_HEIGHT; y++) {
-        pipebody_row32(xi, y, pipe_body_rows8[y & 15]);
-    }
+  // cap at gap_bottom..gap_bottom+15 (flipped wide cap for bottom pipe)
+  for (int r = 0; r < 16 && gap_bottom + r < SCREEN_HEIGHT; r++) {
+    cap_sprite_row_flipped(xi, gap_bottom + r, r);
+  }
+  // body from gap_bottom+16 to bottom
+  for (int y = gap_bottom + 16; y < SCREEN_HEIGHT; y++) {
+    pipebody_row32(xi, y, pipe_body_rows8[y & 15]);
+  }
 }
 
 // ============================================================
@@ -756,9 +756,9 @@ void draw_end_screen(void) {
 
 // convert frequency (Hz) to 32-bit DDS phase increment for BGM
 static uint32_t bgm_freq_to_phase_inc_uint(uint32_t freq_hz) {
-    // phase_inc = freq_hz * 2^32 / BGM_FS
-    uint64_t num = (uint64_t)freq_hz * (1ULL << 32);
-    return (uint32_t)(num / (uint64_t)BGM_FS);
+  // phase_inc = freq_hz * 2^32 / BGM_FS
+  uint64_t num = (uint64_t)freq_hz * (1ULL << 32);
+  return (uint32_t)(num / (uint64_t)BGM_FS);
 }
 
 void init_bgm_arpeggio(void) {
@@ -809,9 +809,9 @@ static void alarm_irq(void) {
   // Advance note duration counter
   bgm_note_sample_count++;
   if (bgm_note_sample_count >= BGM_NOTE_DURATION_SAMPLES) {
-      bgm_note_sample_count = 0;
-      bgm_note_index = (bgm_note_index + 1) % BGM_NUM_NOTES;
-      bgm_phase_inc = bgm_phase_inc_notes[bgm_note_index];
+    bgm_note_sample_count = 0;
+    bgm_note_index = (bgm_note_index + 1) % BGM_NUM_NOTES;
+    bgm_phase_inc = bgm_phase_inc_notes[bgm_note_index];
   }
 }
 
@@ -837,10 +837,9 @@ void init_bgm_table(void) {
 }
 
 // ============================================================
-// ANIMATION THREAD
+// ANIMATION THREAD (core 0)
 // ============================================================
 
-// Animation on core 0
 static PT_THREAD (protothread_anim(struct pt *pt)) {
   // Mark beginning of thread
   PT_BEGIN(pt);
@@ -1107,7 +1106,6 @@ static PT_THREAD(protothread_play_mode(struct pt *pt)) {
   PT_END(pt);
 }
 
-
 // ========================================
 // === core 1 main
 // ========================================
@@ -1134,7 +1132,6 @@ void core1_main() {
   pt_schedule_start ;
 
 }
-
 
 // ========================================
 // === core 0 main
