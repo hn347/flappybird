@@ -11,10 +11,10 @@
 .mobile-menu { display: none; }
 @media (max-width: 600px) {
   .mobile-menu { display: block; }
-  .header-title { font-size: 36px !important; }
+  .header-title { font-size: 24px !important; }
 }
 @media (max-width: 992px) {
-  .header-title { font-size: 48px !important; }
+  .header-title { font-size: 36px !important; }
 }
 </style>
 </head>
@@ -95,9 +95,6 @@
       <div id="Demo0" class="w3-container w3-hide w3-yellow">
         <p style="text-align: justify;">
           The bird's motion and orientation are represented using a small set of fixed point variables: 
-           is stored in , its vertical velocity is 
-          stored in <code>bird_vy</code>, both in <code>fix15</code> for efficient computations. The bird's rotation angle,
-          <code>bird_angle_deg</code>, is also fixed-point. 
         </p>
         <ul>
           <li><code>bird_y</code> (<code>fix15</code>) - The vertical position of the bird, with lower values being higher on the screen.</li>
@@ -111,8 +108,46 @@
           <code>pipe_just_reset[i]</code> track scoring state and ensure the pipes scroll smoothly off and into the screen without visual artifacts.  
         </p>
       </div>
+
+      <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-left-align w3-lime">
+        <b>Finite State Machine</b>
+      </button>
+      <div id="Demo2" class="w3-container w3-hide w3-yellow">
+        <p style="text-align: justify;">
+          Each frame, gravity is applied to the bird by incrementing <code>bird_vy</code> with a fixed-point gravity constant. The updated velocity is then integrated
+          into the bird’s vertical position by adding <code>bird_vy</code> to <code>bird_y</code>. When a flap input is detected, <code>bird_vy</code> is immediately set to 
+          a fixed negative value, producing an upward impulse that overrides gravity for that frame.
+        </p>
+        <p style="text-align: justify;">
+           This portion of the program is modeled by a finite state machine, controlling motion updates, scoring, input handling, 
+           and screen rendering. 
+        </p>
+        <p style="text-align: justify;">
+            The FSM consists of three states:
+        </p>
+        <strong>STATE_START</strong>
+        <p style="text-align: justify;">
+          This is the initial state the game stays in after launching or resetting. The positions of the bird and pipes are set, and new updates to 
+          physics are suppressed. Rendering is handled by the <code>draw_start_screen()</code> function, which prompts the player to select a gameplay mode.
+          Once the first input trigger is received, the code procedes to <code>STATE_FALL</code>.  
+        </p>
+        <strong>STATE_FALL</strong>
+        <p style="text-align: justify;">
+          This is the active gameplay state, during which physics is applied via gravity, flap-trigger velocity pulses to the bird,
+          and a constant <code>PIPE_SPEED</code> by which the x-coordinate of the pipes are updated each frame. Each frame, during this state,
+          all update functions and helpers are called: <code>update_pipes()</code>, <code>update()</code>, and <code>update_bird_angle()</code>.
+          Animations are rendered, and the score is updated. If a collision with a pipe or screen boundary is detected, the program transitions to <code>STATE_END</code>.
+        </p>
+        <strong>STATE_END</strong>
+        <p style="text-align: justify;">
+          During this state, updates are halted and rendering is done by the <code>draw_end_screen()</code> function, which displays a "GAME OVER" message along with 
+          the score upon death and the high score. The code transitions back to <code>STATE_START</code>.
+        </p>
         
-        <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-left-align w3-lime">
+
+      </div>
+        
+        <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-left-align w3-light-green">
         <b>Initialization</b>
       </button>
       <div id="Demo1" class="w3-container w3-hide w3-khaki">
@@ -127,22 +162,6 @@
         </p>
       </div>
 
-      <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-left-align w3-light-green">
-        <b>Motion Updates</b>
-      </button>
-      <div id="Demo2" class="w3-container w3-hide w3-yellow">
-        <p style="text-align: justify;">
-          Each frame, gravity is applied to the bird by incrementing <code>bird_vy</code> with a fixed-point gravity constant. The updated velocity is then integrated
-          into the bird’s vertical position by adding <code>bird_vy</code> to <code>bird_y</code>.
-        </p>
-        <p style="text-align: justify;">
-          When a flap input is detected, <code>bird_vy</code> is immediately set to 
-          a fixed negative value, producing an upward impulse that overrides gravity for that frame. This model produces responsive 
-          and predictable motion for each flap.
-        </p>
-        
-
-      </div>
 
       <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-left-align w3-green w3-text-black">
         <b>Nearest Pipe Selection & Collision Detection</b>
@@ -167,7 +186,7 @@
       </div>
 
       <button onclick="myFunction('Demo4')" class="w3-button w3-block w3-left-align w3-lime">
-        <b>Scoring Logic & State-Drive Screens</b>
+        <b>Scoring Logic</b>
       </button>
       <div id="Demo4" class="w3-container w3-hide w3-khaki">
         <p style="text-align: justify;">
@@ -179,11 +198,8 @@
         <p style="text-align: justify;">
           After incrementing the score, the code checks whether the new score exceeds the current <code>high_score</code>, updating it if necessary. A point sound effect is then triggered via <code>sfx_play(SFX_POINT)</code>, 
           providing immediate audio feedback tied directly to the scoring event. Upon detecting a hit, the current score is copied into <code>last_score_on_death</code>, the high score is updated if needed, and the active score counter 
-          is reset to zero. This separation allows the end screen to display the final score from the previous run without interfering with the next game cycle.
-        </p>
-        <p style="text-align: justify;">
-          Screen rendering is driven entirely by the current value of the global <code>state</code> variable, and after clearing the frame buffer, the code selects which screen to draw based on this state.
-          
+          is reset to zero. This separation allows the end screen to display the final score from the previous run without interfering with the next game cycle. Screen rendering is driven entirely by the current value of the global <code>state</code> 
+          variable, and after clearing the frame buffer, the code selects which screen to draw based on this state.
         </p>
       </div>
           
