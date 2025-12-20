@@ -320,19 +320,44 @@
       <p style="text-align: justify;">
         Visual game assets are stored in assets.h as statically defined lookup tables optimized for fast decoding on the RP2040. 
         Each sprite is represented as a fixed-size tile composed of 4-bit palette indices, allowing every pixel to reference one of 16 
-        predefined VGA colors. This compact representation significantly reduces memory usage while remaining compatible with the VGA.
+        predefined VGA colors. This compact representation significantly reduces memory usage while remaining compatible with the VGA framebuffer
+        format and minimizes the amount of data that must be processed each frame.
       </p>
       <p style="text-align: justify;">
         The bird and pipes are encoded as two 64-bit values per row, representing the left and right 16-pixel halves of a 32-pixel-wide tile. 
         A hexadecimal digit corresponds to one pixel’s color index. Transparency is handled using a parallel bitmask array, where each bit 
         corresponds to a pixel position in the sprite. A mask bit value of 1 indicates transparency (background visible), while 0 indicates an opaque pixel that should be drawn. 
-        The program iterates over points in the sprites, decoding this information and drawing out pixels. This separation of color data and 
-        transparency allows the rendering code in <code>flappy_bird.c</code> to efficiently skip background pixels. 
+        During rendering, the program iterates over each pixel in the sprite, decodes the color data, and
+        skips drawing any pixels marked as transparent. This separation of color data and transparency allows the rendering code in
+        <code>flappy_bird.c</code> to avoid unnecessary writes to the VGA buffer, improving performance.
       </p>
       <p style="text-align: justify;">
-        Pipes are constructed dynamically using modular tile components, allowing for various heights by repeating certain tiles. The pipe body and pipe cap are defined as independent 32×16 tiles (<code>PIPE_BODY_TILE</code> and <code>PIPE_CAP_TILE</code>) 
-        with fully opaque masks. During gameplay, the pipe’s vertical length is assembled by repeatedly drawing the body tile, followed by a cap tile at the end. The code calculates how many body segments are 
-        required based on the pipe gap position, then stacks these segments vertically by repeatedly invoking the same sprite drawing function with updated screen coordinates.
+        One of the main challenges encountered during development was drawing sprites fast enough to avoid visual artifacts such as lag,
+        flickering, or partial updates on the screen. This was especially noticeable for the pipes, which are tall, move continuously, and
+        require many rows to be redrawn every frame. Drawing every pixel individually for large sprites proved too slow and caused visible
+        glitches under certain conditions.
+      </p>
+      
+      <p style="text-align: justify;">
+        To address this, pipes are constructed dynamically using modular tile components rather than stored as full-height sprites. The pipe
+        body and pipe cap are defined as independent 32×16 tiles (<code>PIPE_BODY_TILE</code> and <code>PIPE_CAP_TILE</code>) with fully opaque
+        masks. During gameplay, the pipe’s vertical length is assembled by repeatedly drawing the body tile, followed by a cap tile at the end.
+        The code calculates how many body segments are required based on the pipe gap position and stacks these segments vertically by
+        repeatedly invoking the same drawing logic with updated screen coordinates.
+      </p>
+      
+      <p style="text-align: justify;">
+        An additional rendering issue appeared at the top of the screen, where the top pipes would occasionally glitch or appear partially
+        drawn. This occurred because the VGA framebuffer was being updated while the display was actively scanning those rows. To resolve
+        this, the rendering process was restructured into two passes. First, the top 48 rows of all top pipes are drawn as early as possible
+        in the frame. Once these critical rows are updated, the remainder of each pipe is drawn afterward. By ensuring that the upper portion
+        of the pipes is fully rendered before the display reaches that region, the visible glitches were eliminated.
+      </p>
+      
+      <p style="text-align: justify;">
+        With this two-pass drawing approach and the use of row-based memory copies instead of per-pixel drawing for pipe bodies, the final
+        implementation renders smoothly without noticeable flicker or tearing. These optimizations allow multiple moving pipe pairs and a
+        rotating bird sprite to be drawn each frame while maintaining a stable frame rate and visually clean output.
       </p>
 
       <figure class="w3-center w3-padding-16">
@@ -345,8 +370,8 @@
         <p style="text-align: justify;">
         Audio assets such as scoring, flapping, and collision sounds are stored separately in files like 
         <code>hit_sound.c</code>, <code>point_sound.c</code>, and <code>flap_sound.c</code>, each containing raw waveform samples. 
-        These samples are formatted to match the DAC’s expected input range. When a sound effect is triggered—such as when 
-        the bird passes through a pipe gap or collides with a pipe—the game logic in <code>flappy_bird.c</code> initiates 
+        These samples are formatted to match the DAC’s expected input range. When a sound effect is triggered like when 
+        the bird passes through a pipe gap or collides with a pipe, the game logic in <code>flappy_bird.c</code> initiates 
         a DMA transfer that streams the sound data into the DAC through the SPI interface.
         </p>
 
