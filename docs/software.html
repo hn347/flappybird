@@ -342,17 +342,34 @@
         </figcaption>
       </figure>
       <strong>Sound Effects</strong>
-      <p style="text-align: justify;">
-        Audio assets such as scoring sounds and collision effects are stored separately in files like <code>hit_sound.c</code> and 
-        <code>point_sound.c</code>, each containing raw waveform samples. These samples match the DAC’s expected input range, and when a sound 
-        effect is triggered, such as when the bird passes through a pipe gap, the game logic in <code>flappy_bird.c</code> initiates 
-        a DMA transfer that feeds the sound sample data into the DAC’s SPI buffer.
-      </p>
-      <p style="text-align: justify;">
-        This configuration offloads audio playback from the CPU, ensuring that graphics rendering and game physics remain responsive as sounds execute.
-        Additionally, the use of dedicated sound files and headers allows audio effects to be triggered with a single function call, helping keep the main game 
-        code clean.
-      </p>
+        <p style="text-align: justify;">
+        Audio assets such as scoring, flapping, and collision sounds are stored separately in files like 
+        <code>hit_sound.c</code>, <code>point_sound.c</code>, and <code>flap_sound.c</code>, each containing raw waveform samples. 
+        These samples are formatted to match the DAC’s expected input range. When a sound effect is triggered—such as when 
+        the bird passes through a pipe gap or collides with a pipe—the game logic in <code>flappy_bird.c</code> initiates 
+        a DMA transfer that streams the sound data into the DAC through the SPI interface.
+        </p>
+
+        <p style="text-align: justify;">
+        Using DMA for sound effects offloads audio playback from the CPU, allowing graphics rendering and game physics to remain 
+        responsive even when multiple sounds are triggered during gameplay. Sound effects are also prioritized: important cues 
+        such as scoring and collisions can interrupt lower-priority sounds like flapping, ensuring that critical feedback is 
+        always heard by the player.
+        </p>
+
+        <strong>Background Music</strong>
+        <p style="text-align: justify;">
+        In addition to sound effects, background music plays continuously during gameplay. The music is generated in real time 
+        using a timer interrupt and a simple wavetable-based synthesis approach. Notes change at fixed time intervals to form a 
+        looping melody that runs independently of the main game loop.
+        </p>
+
+        <p style="text-align: justify;">
+        The background music is intentionally quieter than the sound effects so that important gameplay cues remain clear. 
+        Because music playback is handled by interrupts, it does not block rendering or input handling, resulting in smooth 
+        visuals and consistent audio throughout the game.
+        </p>
+
 
   </div>
   <!-- End page content -->
