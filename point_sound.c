@@ -1,3 +1,5 @@
+// ChatGPT-generated python script used to generate sound effect array.
+
 #include "point_sound.h"
 
 const uint16_t point_sfx_data[POINT_SFX_LEN] = {
@@ -4439,3 +4441,4 @@ const uint16_t point_sfx_data[POINT_SFX_LEN] = {
     0x37FF, 0x37FF, 0x37FF, 0x37FF, 0x37FF, 0x37FF, 0x37FF, 0x37FF, 0x37FF, 0x37FF,
     0x37FF, 0x37FF
 };
+
