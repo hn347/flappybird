@@ -1,3 +1,5 @@
+// ChatGPT-generated python script used to generate sound effect array.
+
 #include "flap_sound.h"
 
 const uint16_t flap_sfx_data[FLAP_SFX_LEN] = {
@@ -1495,3 +1497,4 @@ const uint16_t flap_sfx_data[FLAP_SFX_LEN] = {
     0x37FF, 0x37FF, 0x37FF, 0x37FF, 0x37FF, 0x37FF, 0x37FF, 0x37FF, 0x37FF, 0x37FF,
     0x37FF, 0x37FF
 };
+
