@@ -1,3 +1,4 @@
+// ChatGPT was used to convert our images into arrays in order to be drawn as sprites.
 #ifndef ASSETS_H
 #define ASSETS_H
 
@@ -1229,3 +1230,4 @@ static const uint16_t PIPE_CAP_MASK[16][2] = {
 //   0x000000000000FFFF,
 // };
 #endif /* ASSETS_H */
+
