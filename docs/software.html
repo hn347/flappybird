@@ -316,6 +316,7 @@
 
       <div class="w3-container w3-padding-32" id="DisplayingandRenderingGameAssets" style = "text-align: justify">
       <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Displaying and Rendering Game Assets</h3>
+      <strong>Sprites</strong>
       <p style="text-align: justify;">
         Visual game assets are stored in assets.h as statically defined lookup tables optimized for fast decoding on the RP2040. 
         Each sprite is represented as a fixed-size tile composed of 4-bit palette indices, allowing every pixel to reference one of 16 
@@ -340,8 +341,17 @@
           <em>Pipe Sprite, Drawn on Pixilart</em>
         </figcaption>
       </figure>
+      <strong>Sound Effects</strong>
       <p style="text-align: justify;">
-        
+        Audio assets such as scoring sounds and collision effects are stored separately in files like <code>hit_sound.c</code> and 
+        <code>point_sound.c</code>, each containing raw waveform samples. These samples match the DAC’s expected input range, and when a sound 
+        effect is triggered, such as when the bird passes through a pipe gap, the game logic in <code>flappy_bird.c</code> initiates 
+        a DMA transfer that feeds the sound sample data into the DAC’s SPI buffer.
+      </p>
+      <p style="text-align: justify;">
+        This configuration offloads audio playback from the CPU, ensuring that graphics rendering and game physics remain responsive as sounds execute.
+        Additionally, the use of dedicated sound files and headers allows audio effects to be triggered with a single function call, helping keep the main game 
+        code clean.
       </p>
 
   </div>
