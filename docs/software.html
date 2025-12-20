@@ -385,9 +385,10 @@
         <p style="text-align: justify;">
         Audio assets such as scoring, flapping, and collision sounds are stored separately in files like 
         <code>hit_sound.c</code>, <code>point_sound.c</code>, and <code>flap_sound.c</code>, each containing raw waveform samples. 
-        These samples are formatted to match the DAC’s expected input range. When a sound effect is triggered like when 
-        the bird passes through a pipe gap or collides with a pipe, the game logic in <code>flappy_bird.c</code> initiates 
-        a DMA transfer that streams the sound data into the DAC through the SPI interface.
+        An AI-generated Python script from ChatGPT was used to convert standard audio files into a format compatible with the digital-to-analog converter. 
+        The script takes a 16-bit PCM .wav file as input and produces a C header file containing preformatted audio samples ready for playback 
+        on the RP2040. When a sound effect is triggered like when the bird passes through a pipe gap or collides with a pipe, the game logic in 
+        <code>flappy_bird.c</code> initiates a DMA transfer that streams the sound data into the DAC through the SPI interface.
         </p>
 
         <p style="text-align: justify;">
