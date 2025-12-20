@@ -8,13 +8,50 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 /* Mobile menu */
-.mobile-menu { display: none; }
+.mobile-menu { display: none !important; }
 @media (max-width: 600px) {
-  .mobile-menu { display: block; }
+  .mobile-menu { display: block !important; }
   .header-title { font-size: 24px !important; }
 }
 @media (max-width: 992px) and (min-width: 601px) {
   .header-title { font-size: 36px !important; }
+}
+
+/* Image Gallery - same height, flexible width */
+.gallery-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.gallery-item {
+  flex: 1;
+  min-width: 200px;
+  max-width: 400px;
+  text-align: center;
+}
+.gallery-img {
+  height: 500px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* Mobile: Stack images vertically */
+@media (max-width: 600px) {
+  .gallery-row {
+    flex-direction: column;
+    align-items: center;
+  }
+  .gallery-item {
+    width: 100%;
+    max-width: 100%;
+  }
+  .gallery-img {
+    height: auto;
+    width: 100%;
+  }
 }
 </style>
 </head>
@@ -111,6 +148,20 @@
         can be reproduced by another student using the same components and breadboard layout.
       </p>
 
+      <div class="w3-row-padding w3-padding-16 gallery-row">
+        <div class="w3-third gallery-item">
+          <img src="button stand.png" alt="Start Screen" class="gallery-img">
+          <p class="w3-center">Button Stand</p>
+        </div>
+        <div class="w3-third gallery-item">
+          <img src="imu holder.png" alt="Gameplay" class="gallery-img">
+          <p class="w3-center">IMU Holder</p>
+        </div>
+        <div class="w3-third gallery-item">
+          <img src="microphone stand.png" alt="Game Over" class="gallery-img">
+          <p class="w3-center">Microphone Stand</p>
+        </div>
+      </div>
 
       <figure class="w3-center w3-padding-16">
         <img src="hw_diagram.png" alt="Hardware Diagram" style="max-width: 80%; height: auto;">
