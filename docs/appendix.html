@@ -10,7 +10,7 @@
 /* Mobile menu */
 .mobile-menu { display: none !important; }
 @media (max-width: 600px) {
-  .mobile-menu { display: block !important; }
+  .mobile-menu { display: block; }
   .header-title { font-size: 24px !important; }
 }
 @media (max-width: 992px) and (min-width: 601px) {
@@ -26,8 +26,8 @@
     <a href="index.html" class="w3-bar-item w3-button">
       <img src="flappybird.png" alt="Flappy Bird" style="height: 36px; vertical-align: middle;">
     </a>
-    <!-- Mobile menu button (hidden on desktop) -->
-    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-medium w3-hide-large" onclick="toggleMobileMenu()">
+    <!-- Mobile menu button -->
+    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right mobile-menu" onclick="toggleMobileMenu()">
       <i class="fa fa-bars"></i>
     </a>
     <!-- Float links to the right. Hide them on small screens -->
@@ -73,29 +73,42 @@
       <p style="text-align: justify;">
         The group approves the video for inclusion on the course youtube channel.
       </p>
+    </div>
 
     <div class="w3-container w3-padding-32" id="OrganizingFunctionalityAcrossProtothreads" style = "text-align: justify">
       <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Appendix B: Code</h3>
       <p style="text-align: justify;">
         The code for our project is on <a href="https://github.com/hn347/flappybird.git">https://github.com/hn347/flappybird.git</a>.
       </p>
+    </div>
 
     <div class="w3-container w3-padding-32" id="OrganizingFunctionalityAcrossProtothreads" style = "text-align: justify">
       <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Appendix C: Schematics</h3>
       <p style="text-align: justify;">
         Hardware Design page.
       </p>
+    </div>
 
     <div class="w3-container w3-padding-32" id="OrganizingFunctionalityAcrossProtothreads" style = "text-align: justify">
       <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Appendix D: Work Distribution</h3>
       <p style="text-align: justify;">
         The code for our project is on <a href="https://github.com/hn347/flappybird.git">https://github.com/hn347/flappybird.git</a>.
       </p>
+    </div>
 
     <div class="w3-container w3-padding-32" id="OrganizingFunctionalityAcrossProtothreads" style = "text-align: justify">
       <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">References</h3>
+      <ul>
+        <li><a href="https://ece4760.github.io/">Course Website</a></li>
+        <li><a href="https://github.com/vha3/Hunter-Adams-RP2040-Demos">Course Demo Code</a></li>
+        <li><a href="https://pip-assets.raspberrypi.com/categories/814-rp2040/documents/RP-008371-DS-1-rp2040-datasheet.pdf?disposition=inline">RP2040 Datasheet</a></li>
+        <li><a href="https://ww1.microchip.com/downloads/en/DeviceDoc/20002249B.pdf">DAC Datasheet</a></li>
+        <li><a href="https://learn.adafruit.com/adafruit-agc-electret-microphone-amplifier-max9814/wiring-and-test">Adafruit Electret Microphone Amplifier MAX9814</a></li>
+        <li><a href="https://sounds.spriters-resource.com/mobile/flappybird/asset/398837/">Game Sound Effects</a></li>
+        <li><a href="https://ece4760.github.io/Projects/Fall2022/tts47_ems395_mck65/index.html">"The Saga of Steve" Project Website</a></li>
+      </ul>
+    </div>
       
-
   </div>
   <!-- End page content -->
 
