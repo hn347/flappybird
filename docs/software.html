@@ -133,7 +133,7 @@
         </p>
         <strong>STATE_FALL</strong>
         <p style="text-align: justify;">
-          This is the active gameplay state, during which physics is applied via gravity, flap-trigger velocity pulses to the bird,
+          This is the active playing state, during which physics is applied via gravity, flap-trigger velocity pulses to the bird,
           and a constant <code>PIPE_SPEED</code> by which the x-coordinate of the pipes are updated each frame. Each frame, during this state,
           all update functions and helpers are called: <code>update_pipes()</code>, <code>update()</code>, and <code>update_bird_angle()</code>.
           Animations are rendered, and the score is updated. If a collision with a pipe or screen boundary is detected, the program transitions to <code>STATE_END</code>.
@@ -314,8 +314,35 @@
       }
       </script>
 
-      
+      <div class="w3-container w3-padding-32" id="DisplayingandRenderingGameAssets" style = "text-align: justify">
+      <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Displaying and Rendering Game Assets</h3>
+      <p style="text-align: justify;">
+        Visual game assets are stored in assets.h as statically defined lookup tables optimized for fast decoding on the RP2040. 
+        Each sprite is represented as a fixed-size tile composed of 4-bit palette indices, allowing every pixel to reference one of 16 
+        predefined VGA colors. This compact representation significantly reduces memory usage while remaining compatible with the VGA.
+      </p>
+      <p style="text-align: justify;">
+        The bird and pipes are encoded as two 64-bit values per row, representing the left and right 16-pixel halves of a 32-pixel-wide tile. 
+        A hexadecimal digit corresponds to one pixel’s color index. Transparency is handled using a parallel bitmask array, where each bit 
+        corresponds to a pixel position in the sprite. A mask bit value of 1 indicates transparency (background visible), while 0 indicates an opaque pixel that should be drawn. 
+        The program iterates over points in the sprites, decoding this information and drawing out pixels. This separation of color data and 
+        transparency allows the rendering code in <code>flappy_bird.c</code> to efficiently skip background pixels. 
+      </p>
+      <p style="text-align: justify;">
+        Pipes are constructed dynamically using modular tile components, allowing for various heights by repeating certain tiles. The pipe body and pipe cap are defined as independent 32×16 tiles (<code>PIPE_BODY_TILE</code> and <code>PIPE_CAP_TILE</code>) 
+        with fully opaque masks. During gameplay, the pipe’s vertical length is assembled by repeatedly drawing the body tile, followed by a cap tile at the end. The code calculates how many body segments are 
+        required based on the pipe gap position, then stacks these segments vertically by repeatedly invoking the same sprite drawing function with updated screen coordinates.
+      </p>
 
+      <figure class="w3-center w3-padding-16">
+        <img src="flappybirdpipe.png" alt="Pipe Sprite, Drawn on Pixilart" style="max-width: 80%; height: auto;">
+        <figcaption class="w3-text-grey w3-margin-top">
+          <em>State FSM</em>
+        </figcaption>
+      </figure>
+      <p style="text-align: justify;">
+        
+      </p>
 
   </div>
   <!-- End page content -->
