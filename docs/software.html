@@ -318,7 +318,7 @@
       <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Displaying and Rendering Game Assets</h3>
       <strong>Sprites</strong>
       <p style="text-align: justify;">
-        Visual game assets are stored in assets.h as statically defined lookup tables optimized for fast decoding on the RP2040. 
+        Visual game assets are stored in <code>assets.h</code> as statically defined lookup tables optimized for fast decoding on the RP2040. 
         Each sprite is represented as a fixed-size tile composed of 4-bit palette indices, allowing every pixel to reference one of 16 
         predefined VGA colors. This compact representation significantly reduces memory usage while remaining compatible with the VGA framebuffer
         format and minimizes the amount of data that must be processed each frame.
