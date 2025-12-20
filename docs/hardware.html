@@ -27,6 +27,12 @@
   margin-bottom: 16px;
 }
 
+/* Hardware diagram */
+.hw-diagram {
+  max-width: 80%;
+  height: auto;
+}
+
 /* Mobile: Stack images vertically */
 @media (max-width: 600px) {
   .gallery-row .w3-third {
@@ -34,6 +40,9 @@
   }
   .gallery-img {
     height: 250px;
+  }
+  .hw-diagram {
+    max-width: 100%;
   }
 }
 </style>
@@ -147,7 +156,7 @@
       </div>
 
       <figure class="w3-center w3-padding-16">
-        <img src="hw_diagram.png" alt="Hardware Diagram" style="max-width: 100%; height: auto;">
+        <img src="hw_diagram.png" alt="Hardware Diagram" class="hw-diagram">
         <figcaption class="w3-text-grey w3-margin-top">
           <em>Hardware Diagram</em>
         </figcaption>
