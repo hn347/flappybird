@@ -324,7 +324,9 @@
         format and minimizes the amount of data that must be processed each frame.
       </p>
       <p style="text-align: justify;">
-        The bird and pipes are encoded as two 64-bit values per row, representing the left and right 16-pixel halves of a 32-pixel-wide tile. 
+        The sprite artwork was created using a combination of a hand-drawn pipe design and an online-sourced PNG image for the bird. 
+        ChatGPT was used to convert these visual assets into their corresponding C representations by encoding the pixel data and transparency masks into lookup 
+        tables, which we stored in <code>assets.h</code>. The bird and pipes are encoded as two 64-bit values per row, representing the left and right 16-pixel halves of a 32-pixel-wide tile. 
         A hexadecimal digit corresponds to one pixel’s color index. Transparency is handled using a parallel bitmask array, where each bit 
         corresponds to a pixel position in the sprite. A mask bit value of 1 indicates transparency (background visible), while 0 indicates an opaque pixel that should be drawn. 
         During rendering, the program iterates over each pixel in the sprite, decodes the color data, and
